@@ -6,7 +6,7 @@ COPY package.json /usr/src/app/
 RUN npm install
 COPY . /usr/src/app
 
-ENV PORT 80
-EXPOSE 80
+ENV PORT 8888
+EXPOSE 8888
 
 ENTRYPOINT node server.js
