@@ -20,6 +20,6 @@ router.use('/api', loginRouter.routes(), loginRouter.allowedMethods());
 //加载路由中间件
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(8888, () => {
-    console.log('The server is running at http://localhost:' + 8888);
+app.listen(8080, () => {
+    console.log('The server is running at http://localhost:' + 8080);
 });

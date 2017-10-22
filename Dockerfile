@@ -7,6 +7,6 @@ RUN npm install
 COPY . /usr/src/app
 RUN mongod --dbpath ppp 
 
-EXPOSE 8888 
+EXPOSE 8080 
 
 ENTRYPOINT ["node", "server.js"] 
