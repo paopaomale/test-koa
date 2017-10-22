@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
-let connectStr = undefined;
-if(typeof ENV !== 'undefined' && ENV['MONGODB_CONNECTION']){
-	connectStr = ENV['MONGODB_CONNECTION'];
-} else {
-	connectStr = 'mongodb://localhost/vue-login';
-}
-mongoose.connect(connectStr);
+mongoose.connect('ubjsOBarHEZyeNgL:pbtA5yOxYP8L6MpNH@10.10.190.60:27017/Z76zis8g1BJke3RY');
 
 let db = mongoose.connection;
 // 防止Mongoose: mpromise 错误
