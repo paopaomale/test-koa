@@ -1,44 +1,25 @@
-var http = require('http')
-var url = require('url')
+const Koa = require('koa');
+const app = new Koa();
 
-var server = http.createServer(router({
-  '/': function(req, res) {
-    res.writeHead(200)
-    res.end('Hello world!')
-  },
+//router
+const Router = require('koa-router');
 
-  '/bye': function(req, res) {
-    res.writeHead(200)
-    res.end('Bye~')
-  }
-}))
+//父路由
+const router = new Router();
 
-server.listen(parseInt(process.env.PORT) || 80, function() {
-  console.log('Docker DEMO with Node.js is running.')
-})
+//bodyparser:该中间件用于post请求的数据
+const bodyParser = require('koa-bodyparser');
+app.use(bodyParser());
 
-module.exports = server
+//引入子路由
+const loginRouter = require('./server/routes/user.js');
 
-// A simple router
-function router(routes) {
-  var paths = Object.keys(routes)
-  var regexs = paths.map(function(path) {
-    return new RegExp('^' + path + '$')
-  })
+//装载子路由
+router.use('/api', loginRouter.routes(), loginRouter.allowedMethods());
 
-  return function(req, res) {
-    var reqUrl = url.parse(req.url).pathname
-    for (var i = 0; i < regexs.length; i++) {
-      if (reqUrl.match(regexs[i]) != null) {
-        var path = paths[i]
-        return routes[path].call(server, req, res)
-      }
-    }
+//加载路由中间件
+app.use(router.routes()).use(router.allowedMethods());
 
-    // Page not found
-    res.writeHead(404, {
-      'Content-Type': 'text/plain'
-    })
-    res.end('Page not found.')
-  }
-}
+app.listen(80, () => {
+    console.log('The server is running at http://localhost:' + 80);
+});
