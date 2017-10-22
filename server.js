@@ -1,28 +1,25 @@
-var express = require('express'),
-    routes = require('./routes/routes'),
-    http = require('http'),
-    path = require('path');
+const Koa = require('koa');
+const app = new Koa();
 
+//router
+const Router = require('koa-router');
 
-var app = express();
+//父路由
+const router = new Router();
 
-app.configure(function() {
-    app.set('port', process.env.PORT || 1340);
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'html');
-    app.use(express.favicon());
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser());
-    app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
-});
+//bodyparser:该中间件用于post请求的数据
+const bodyParser = require('koa-bodyparser');
+app.use(bodyParser());
 
-routes(app);
+//引入子路由
+const loginRouter = require('./server/routes/user.js');
 
-app.configure('development', function() {
-    app.use(express.errorHandler());
-});
+//装载子路由
+router.use('/api', loginRouter.routes(), loginRouter.allowedMethods());
 
-http.createServer(app).listen(app.get('port'), function() {
-    console.log("Express server listening on port " + app.get('port'));
+//加载路由中间件
+app.use(router.routes()).use(router.allowedMethods());
+
+app.listen(8888, () => {
+    console.log('The server is running at http://localhost:' + 8888);
 });
