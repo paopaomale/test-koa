@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 mongoose.connect('mongodb://ubjsOBarHEZyeNgL:pbtA5yOxYP8L6MpNH@10.10.190.60:27017/Z76zis8g1BJke3RY');
 
 let db = mongoose.connection;
