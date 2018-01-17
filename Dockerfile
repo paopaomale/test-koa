@@ -61,6 +61,6 @@ COPY . /usr/src/app
 
 EXPOSE 8080 
 
-mongod --dbpath ppp
+CMD mongod --dbpath ppp
 
 ENTRYPOINT ["node", "server.js"] 
